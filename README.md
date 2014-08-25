@@ -5,6 +5,7 @@ The MongoDB discovery plugin uses MongoDB for unicast discovery in Elasticsearch
 The configuration value `discovery.mongo.cluster_id` is used for looking up a set of nodes (an array identifed by the 'nodes' key) in a MongoDB collection. Here's an example schema:
 
 ``` javascript
+> db.clusters.ensureIndex({cluster: 1}, {unique: true})
 > db.clusters.findOne()
 {
     "_id" : ObjectId("53fbb280da215060eb6b9134"),
