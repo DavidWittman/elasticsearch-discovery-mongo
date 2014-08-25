@@ -19,6 +19,8 @@ import org.elasticsearch.common.inject.Inject;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
 import org.elasticsearch.discovery.zen.ping.unicast.UnicastHostsProvider;
+import org.elasticsearch.discovery.DiscoveryException;
+import org.elasticsearch.ElasticsearchIllegalArgumentException;
 import org.elasticsearch.transport.TransportService;
 
 /**
@@ -38,13 +40,21 @@ public class MongoUnicastHostsProvider extends AbstractComponent implements Unic
     @Override
     public List<DiscoveryNode> buildDynamicNodes() {
         // TODO(dw): Implement caching?
-        // TODO(dw): Fetch clusterId from the settings
-        String clusterId = "deadbeef42";
-        logger.info("Building list of dynamic discovery nodes from Mongo");
         List<DiscoveryNode> discoNodes = Lists.newArrayList();
+        String clusterId = componentSettings.get("cluster_id");
+
+        if (clusterId == null) {
+            throw new ElasticsearchIllegalArgumentException("discovery.mongo.cluster_id must be set in the elasticsearch config");
+        }
+        logger.info("Building list of dynamic discovery nodes from Mongo using ID {}", clusterId);
                 
         DBCollection coll = mongoService.getCollection();
         DBObject doc = coll.findOne(new BasicDBObject("cluster", clusterId));
+
+        if (doc == null) {
+            throw new DiscoveryException("Cluster matching ID '" + clusterId + "' not found");
+        }
+
         BasicDBList nodes = (BasicDBList) doc.get("nodes");
 
         // TODO(dw): Filter out current node from list

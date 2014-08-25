@@ -30,6 +30,7 @@ public class MongoService extends AbstractLifecycleComponent<MongoService> {
         MongoClientURI uri = new MongoClientURI(connectString);
 
         try {
+            logger.debug("Connecting to MongoDB at {}", connectString);
             MongoClient mongo = new MongoClient(uri);
             coll = mongo.getDB(uri.getDatabase()).getCollection(collectionName);
         } catch (Exception e) {
