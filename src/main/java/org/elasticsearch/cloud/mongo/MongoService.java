@@ -24,7 +24,7 @@ public class MongoService extends AbstractLifecycleComponent<MongoService> {
         // TODO(dw): Implement authentication
         // TODO(dw): Accept collection name as an arg?
         String connectString = componentSettings.get("connect_string", "mongodb://localhost/es");
-        String collectionName = componentSettings.get("collection", "nodes");
+        String collectionName = componentSettings.get("collection", "clusters");
         DBCollection coll = null;
 
         MongoClientURI uri = new MongoClientURI(connectString);
