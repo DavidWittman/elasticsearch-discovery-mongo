@@ -12,9 +12,9 @@
 
   <!-- TODO(dw): This naming is probably broken in some way -->
   <groupId>org.elasticsearch</groupId>
-  <artifactId>elasticsearch-cloud-mongo</artifactId>
+  <artifactId>elasticsearch-discovery-mongo</artifactId>
   <packaging>jar</packaging>
-  <version>0.1</version>
+  <version>0.2</version>
 
   <name>MongoDB Discovery Plugin</name>
   <description>Discover ElasticSearch Nodes via lookup in MongoDB</description>

@@ -1,4 +1,4 @@
-package org.elasticsearch.cloud.mongo;
+package org.elasticsearch.mongo;
 
 import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
@@ -23,7 +23,7 @@ public class MongoService extends AbstractLifecycleComponent<MongoService> {
     public synchronized DBCollection getCollection() {
         // TODO(dw): Implement authentication
         // TODO(dw): Accept collection name as an arg?
-        String connectString = componentSettings.get("connect_string", "mongodb://localhost/es");
+        String connectString = componentSettings.get("connection_string", "mongodb://localhost/es");
         String collectionName = componentSettings.get("collection", "clusters");
         DBCollection coll = null;
 
