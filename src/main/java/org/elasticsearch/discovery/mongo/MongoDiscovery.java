@@ -1,7 +1,7 @@
 package org.elasticsearch.discovery.mongo;
 
 import org.elasticsearch.Version;
-import org.elasticsearch.cloud.mongo.MongoService;
+import org.elasticsearch.mongo.MongoService;
 import org.elasticsearch.cluster.ClusterName;
 import org.elasticsearch.cluster.ClusterService;
 import org.elasticsearch.cluster.node.DiscoveryNodeService;
@@ -30,7 +30,7 @@ public class MongoDiscovery extends ZenDiscovery {
                         DiscoverySettings discoverySettings) {
         super(settings, clusterName, threadPool, transportService, clusterService, nodeSettingsService,
                 discoveryNodeService, pingService, Version.CURRENT, discoverySettings);
-        if (settings.getAsBoolean("cloud.enabled", true)) {
+        if (settings.getAsBoolean("discovery.mongo.enabled", true)) {
             ImmutableList<? extends ZenPing> zenPings = pingService.zenPings();
             UnicastZenPing unicastZenPing = null;
             for (ZenPing zenPing : zenPings) {
@@ -42,7 +42,7 @@ public class MongoDiscovery extends ZenDiscovery {
 
             if (unicastZenPing != null) {
                 logger.info("Adding MongoUnicastHostsProvider to zen pings");
-                // update the unicast zen ping to add cloud hosts provider
+                // update the unicast zen ping to add Mongo provider
                 // and, while we are at it, use only it and not the multicast for example
                 unicastZenPing.addHostsProvider(new MongoUnicastHostsProvider(settings, transportService, mongoService));
                 pingService.zenPings(ImmutableList.of(unicastZenPing));

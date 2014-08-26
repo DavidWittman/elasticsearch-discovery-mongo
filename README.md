@@ -29,7 +29,7 @@ $ mvn clean package
 ## Installation
 
 ```
-$ /usr/share/elasticsearch/bin/plugin -url file:/path/to/elasticsearch-cloud-mongo-0.1.zip -install elasticsearch-cloud-mongo
+$ /usr/share/elasticsearch/bin/plugin -url file:/path/to/elasticsearch-discovery-mongo-0.2.zip -install elasticsearch-discovery-mongo
 ```
 
 ## Configuration
@@ -37,9 +37,10 @@ $ /usr/share/elasticsearch/bin/plugin -url file:/path/to/elasticsearch-cloud-mon
 In elasticsearch.yml
 
 ```
-plugin.mandatory: cloud-mongo
+plugin.mandatory: discovery-mongo
 discovery.type: mongo
-discovery.mongo.cluster_id: cluster_id_from_mongo_doc
-cloud.mongo.connect_string: 'mongodb://user:pass@mongo.example.com/database'
-cloud.mongo.collection: clusters
+discovery.mongo.cluster_id: ${cluster.name}
+mongo:
+  connection_string: 'mongodb://user:pass@mongo.example.com/database'
+  collection: clusters
 ```

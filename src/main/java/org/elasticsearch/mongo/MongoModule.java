@@ -1,4 +1,4 @@
-package org.elasticsearch.cloud.mongo;
+package org.elasticsearch.mongo;
 
 import org.elasticsearch.common.inject.AbstractModule;
 

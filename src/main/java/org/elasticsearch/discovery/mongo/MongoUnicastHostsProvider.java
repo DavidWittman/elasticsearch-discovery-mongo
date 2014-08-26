@@ -10,7 +10,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
 import com.mongodb.DBObject;
 
-import org.elasticsearch.cloud.mongo.MongoService;
+import org.elasticsearch.mongo.MongoService;
 import org.elasticsearch.Version;
 import org.elasticsearch.cluster.node.DiscoveryNode;
 import org.elasticsearch.common.collect.Lists;
@@ -52,7 +52,8 @@ public class MongoUnicastHostsProvider extends AbstractComponent implements Unic
         DBObject doc = coll.findOne(new BasicDBObject("cluster", clusterId));
 
         if (doc == null) {
-            throw new DiscoveryException("Cluster matching ID '" + clusterId + "' not found");
+            logger.error("Cluster matching ID '{}' not found", clusterId);
+            return null;
         }
 
         BasicDBList nodes = (BasicDBList) doc.get("nodes");
@@ -64,7 +65,7 @@ public class MongoUnicastHostsProvider extends AbstractComponent implements Unic
             try {
                 TransportAddress[] addresses = transportService.addressesFromString(node);
                 logger.trace("adding node {}, transport_address {}", node, addresses[0]);
-                discoNodes.add(new DiscoveryNode("#cloud-" + node, addresses[0], Version.CURRENT));
+                discoNodes.add(new DiscoveryNode("#mongo-" + node, addresses[0], Version.CURRENT));
             } catch (Exception e) {
                 logger.warn("failed to add {}: {}", node, e);
             }
