@@ -18,7 +18,11 @@ The configuration value `discovery.mongo.cluster_id` is used for looking up a se
 }
 ```
 
-In this case, a cluster identifed by the key 'lolwut' will discover three nodes from MongoDB: one.example.com, two.example.com, and three.example.com.
+In this case, a cluster with `discovery.mongo.cluster_id` set to  `lolwut` will discover three nodes from MongoDB:
+
+ 1. one.example.com
+ 1. two.example.com
+ 1. three.example.com.
 
 ## Build
 
